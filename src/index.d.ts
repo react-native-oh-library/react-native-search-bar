@@ -67,7 +67,7 @@ interface Props {
    *
    * Default is true
    */
-  enablesReturnKeyAutomatically?: boolean;
+  //enablesReturnKeyAutomatically?: boolean;
 
   /**
    * Indicates whether just to show the text input only
@@ -116,28 +116,28 @@ interface Props {
    *
    * Default is 'default'
    */
-  keyboardAppearance?: 'default' | 'dark' | 'light';
+  //keyboardAppearance?: 'default' | 'dark' | 'light';
 
   /**
    * The auto-capitalization behavior
    *
    * Default is 'sentences'
    */
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  //autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 
   /**
    * If autoCorrect is enabled
    *
    * Default is false
    */
-  autoCorrect?: boolean;
+  //autoCorrect?: boolean;
 
   /**
    * If red underline is shown for misspelt words
    *
    * Default is false
    */
-  spellCheck?: boolean;
+  //spellCheck?: boolean;
 
   /**
    * Event fired when
