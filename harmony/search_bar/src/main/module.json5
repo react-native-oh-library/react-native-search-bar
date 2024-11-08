@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "search_bar",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ],
+  }
+}

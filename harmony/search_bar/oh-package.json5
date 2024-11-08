@@ -1,0 +1,13 @@
+{
+  license: '',
+  devDependencies: {},
+  author: '',
+  name: '@react-native-oh-tpl/react-native-search-bar',
+  "main": 'index.ets',
+  description: '',
+  type: 'module',
+  version: '3.5.1-0.0.1',
+  dependencies: {
+    "@rnoh/react-native-openharmony": "file:../react_native_openharmony"
+  },
+}
