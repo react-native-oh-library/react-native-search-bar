@@ -124,7 +124,7 @@ export struct RNCSearchBar {
     this.text = this.props.text;
     this.isFocusable = this.props.editable;
 
-    console.log("ETS------------> props: " + JSON.stringify(this.descriptor.props))
+    this.ctx.logger.info("ETS------------> props: " + JSON.stringify(this.descriptor.props))
 
     eventBus.on('focusForTurboModule', () => {
       this.getUIContext().getFocusController().requestFocus("search");

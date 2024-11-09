@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  NativeModules,
-  requireNativeComponent,
-  findNodeHandle,
-} from 'react-native';
 
-const RNSearchBar = requireNativeComponent('RNSearchBar', null);
+import NativeRNSearchBarModule from './NativeRNSearchBarModule';
+import RNCSearchBar from './RNCSearchBarNativeComponent';
 
 class SearchBar extends React.PureComponent {
   static propTypes = {
@@ -87,71 +83,51 @@ class SearchBar extends React.PureComponent {
     onCancelButtonPress: () => null,
   };
 
-  onChange = e => {
-    this.props.onChange(e);
-    this.props.onChangeText(e.nativeEvent.text);
+  onChangeText = e => {
+    if(this.props.onChangeText){
+		this.props.onChangeText(e.nativeEvent.text);
+	}
   };
 
   onSearchButtonPress = e => {
-    this.props.onSearchButtonPress(e.nativeEvent.searchText);
+    this.props.onSearchButtonPress(e.nativeEvent.text);
   };
 
   onFocus = () => {
-    if (this.props.showsCancelButtonWhileEditing) {
-      NativeModules.RNSearchBarManager.toggleCancelButton(
-        findNodeHandle(this),
-        true
-      );
-    }
-
     this.props.onFocus();
   };
 
   onCancelButtonPress = () => {
-    if (this.props.showsCancelButtonWhileEditing) {
-      NativeModules.RNSearchBarManager.toggleCancelButton(
-        findNodeHandle(this),
-        false
-      );
-    }
-
     this.props.onChangeText('');
     this.props.onCancelButtonPress();
   };
 
   onBlur = () => {
-    if (this.props.showsCancelButtonWhileEditing) {
-      NativeModules.RNSearchBarManager.toggleCancelButton(
-        findNodeHandle(this),
-        false
-      );
-    }
-
     this.props.onBlur();
   };
 
   blur() {
-    return NativeModules.RNSearchBarManager.blur(findNodeHandle(this));
+    return NativeRNSearchBarModule.blur();
   }
 
   focus() {
-    return NativeModules.RNSearchBarManager.focus(findNodeHandle(this));
+    return NativeRNSearchBarModule.focus();
   }
 
   clearText() {
-    return NativeModules.RNSearchBarManager.clearText(findNodeHandle(this));
+    return NativeRNSearchBarModule.clearText();
   }
 
   unFocus() {
-    return NativeModules.RNSearchBarManager.unFocus(findNodeHandle(this));
+    return NativeRNSearchBarModule.unFocus();
   }
 
   render() {
     return (
-      <RNSearchBar
-        style={{ height: NativeModules.RNSearchBarManager.ComponentHeight }}
+      <RNCSearchBar
+        style={{ height: 55 }}
         {...this.props}
-        onChange={this.onChange}
+		onChangeText={this.onChangeText}
         onPress={this.onPress}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
