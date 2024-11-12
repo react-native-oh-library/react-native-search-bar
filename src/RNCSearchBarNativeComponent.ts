@@ -1,6 +1,7 @@
 // @flow strict-local
 
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+import codegenNativeCommands from "react-native/Libraries/Utilities/codegenNativeCommands";
 import type { ViewProps, HostComponent } from 'react-native';
 import type {
   WithDefault,
@@ -21,7 +22,6 @@ export type ChangeEventData = Readonly<{
 }>
 
 export interface SearchBarNativeProps extends ViewProps {
-    
     placeholder?: WithDefault<string, 'Search'>;
     text?: string;
     barStyle?: WithDefault<'default' | 'black', 'default'>;
@@ -49,6 +49,21 @@ export interface SearchBarNativeProps extends ViewProps {
     onSearchButtonPress?: DirectEventHandler<StringEventData>;
     onCancelButtonPress?: DirectEventHandler<VoidEventData>;
   }
+
+
+
+type NativeType = HostComponent<SearchBarNativeProps>;
+
+interface NativeCommands {
+  focus: (viewRef: React.ElementRef<NativeType>) => void;
+  blur: (viewRef: React.ElementRef<NativeType>) => void;
+  unFocus: (viewRef: React.ElementRef<NativeType>) => void;
+  clearText: (viewRef: React.ElementRef<NativeType>) => void;
+}
+
+export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
+  supportedCommands: ["focus","blur","unFocus","clearText"],
+});
 
 export default codegenNativeComponent<SearchBarNativeProps>(
   "RNCSearchBar"
