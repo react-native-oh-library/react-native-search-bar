@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import NativeRNSearchBarModule from './NativeRNSearchBarModule';
-import RNCSearchBar from './RNCSearchBarNativeComponent';
+import RNCSearchBar,{Commands as SearchBarCommands,} from './RNCSearchBarNativeComponent';
 
 class SearchBar extends React.PureComponent {
+  mRNCSearchBarRef: React.ElementRef<typeof RNCSearchBar> | null =null;
   static propTypes = {
     placeholder: PropTypes.string,
     text: PropTypes.string,
@@ -107,19 +106,27 @@ class SearchBar extends React.PureComponent {
   };
 
   blur() {
-    return NativeRNSearchBarModule.blur();
+    if(this.mRNCSearchBarRef){
+	  SearchBarCommands.blur(this.mRNCSearchBarRef);
+	}
   }
 
   focus() {
-    return NativeRNSearchBarModule.focus();
+    if(this.mRNCSearchBarRef){
+	  SearchBarCommands.focus(this.mRNCSearchBarRef);
+	}
   }
 
   clearText() {
-    return NativeRNSearchBarModule.clearText();
+    if(this.mRNCSearchBarRef){
+	  SearchBarCommands.clearText(this.mRNCSearchBarRef);
+	}
   }
 
   unFocus() {
-    return NativeRNSearchBarModule.unFocus();
+    if(this.mRNCSearchBarRef){
+	  SearchBarCommands.unFocus(this.mRNCSearchBarRef);
+	}
   }
 
   render() {
@@ -127,6 +134,9 @@ class SearchBar extends React.PureComponent {
       <RNCSearchBar
         style={{ height: 55 }}
         {...this.props}
+		ref={(ref) => {
+          this.mRNCSearchBarRef = ref;
+        }}
 		onChangeText={this.onChangeText}
         onPress={this.onPress}
         onFocus={this.onFocus}

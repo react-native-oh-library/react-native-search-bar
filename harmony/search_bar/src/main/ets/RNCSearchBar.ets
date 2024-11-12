@@ -28,7 +28,6 @@ import {
   RNViewBase,
   RNComponentContext,
 } from '@rnoh/react-native-openharmony'
-import eventBus from './eventBus';
 
 const TAG: string = "[RNOH] RNCSearchBar"
 
@@ -112,6 +111,7 @@ export struct RNCSearchBar {
   @State text: string = "";
   @State changeCount: number = 0;
   private props: RNCSearchBarProps = {} as RNCSearchBarProps;
+  private cleanupCommandCallback?: () => void = undefined;
 
   aboutToAppear() {
     this.descriptor = this.ctx.descriptorRegistry.getDescriptor<SearchBarDescriptor>(this.tag)
@@ -126,41 +126,24 @@ export struct RNCSearchBar {
 
     this.ctx.logger.info("ETS------------> props: " + JSON.stringify(this.descriptor.props))
 
-    eventBus.on('focusForTurboModule', () => {
-      this.getUIContext().getFocusController().requestFocus("search");
-    });
-
-    eventBus.on('blurForTurboModule', () => {
-      this.getUIContext().getFocusController().clearFocus();
-    });
-
-    eventBus.on('unFocusForTurboModule', () => {
-      this.getUIContext().getFocusController().clearFocus();
-    });
-
-    eventBus.on('clearTextForTurboModule', () => {
-      this.text = "";
+    this.cleanupCommandCallback = this.ctx.componentCommandReceiver.registerCommandCallback(
+      this.tag,
+      (command, args:ESObject[]) => {
+        this.ctx.logger.info(this.tag, "ETS------------> command: " + command)
+        if (command === 'focus') {
+          this.getUIContext().getFocusController().requestFocus("search");
+        } else if (command === 'blur') {
+          this.getUIContext().getFocusController().clearFocus();
+        } else if (command === 'unFocus') {
+          this.getUIContext().getFocusController().clearFocus();
+        } else if (command === 'clearText') {
+          this.text = "";
+        }
     });
   }
 
   aboutToDisappear() {
     this.unregisterDescriptorChangesListener?.()
-
-    eventBus.off('focusForTurboModule', () => {
-
-    });
-
-    eventBus.off('blurForTurboModule', () => {
-
-    });
-
-    eventBus.off('unFocusForTurboModule', () => {
-
-    });
-
-    eventBus.off('clearTextForTurboModule', () => {
-
-    });
   }
 
   onChange(value: string, count: number) {
