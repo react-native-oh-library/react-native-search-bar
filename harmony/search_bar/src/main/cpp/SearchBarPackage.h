@@ -23,7 +23,6 @@
  */
 
 #include "EventEmiRequestHandler.h"
-#include "NativeRNSearchBarModule.h"
 #include "RNOH/Package.h"
 #include "ComponentDescriptors.h"
 #include "JSIBinder.h"
@@ -32,26 +31,11 @@
 using namespace rnoh;
 using namespace facebook;
 
-class SearchBarFactoryTurboModuleDelegate : public TurboModuleFactoryDelegate  {
-public:
-    SharedTurboModule createTurboModule(Context ctx, const std::string &name) const override {
-        if (name == "NativeRNSearchBarModule") {
-            return std::make_shared<NativeRNSearchBarModule>(ctx, name);
-        }
-        return nullptr;
-    };
-};
-
 namespace rnoh {
 
 class SearchBarPackage : public Package {
 public:
     SearchBarPackage(Package::Context ctx): Package(ctx) {}
-    
-    std::unique_ptr<TurboModuleFactoryDelegate> createTurboModuleFactoryDelegate() override {
-        DLOG(INFO) << "CPP-RNCSearchBar createTurboModuleFactoryDelegate";
-        return std::make_unique<SearchBarFactoryTurboModuleDelegate>();
-    }
 
     std::vector<facebook::react::ComponentDescriptorProvider> createComponentDescriptorProviders() override {
         return {facebook::react::concreteComponentDescriptorProvider<facebook::react::RNCSearchBarComponentDescriptor>()};
