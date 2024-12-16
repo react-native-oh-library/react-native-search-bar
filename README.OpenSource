@@ -1,0 +1,11 @@
+[
+    {
+        "Name": "react-native-search-bar",
+        "License": "MIT License",
+        "License File": "LICENSE",
+        "Version Number": "3.5.1",
+        "Owner" : "xiafeng@huawei.com",
+        "Upstream URL": "https://github.com/umhan35/react-native-search-bar",
+        "Description": "The high-quality iOS native search bar for react native."
+    }
+]
